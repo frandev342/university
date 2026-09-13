@@ -217,10 +217,8 @@ void RemoveDuplicates(struct Node *head) {
     return;
   struct Node *current = head->next;
   struct Node *previousNode = head;
-  int RepeatedValue = head->data;
   while (current != NULL) {
-    if (current->data != RepeatedValue) {
-      RepeatedValue = current->data;
+    if (current->data != previousNode->data) {
       previousNode = current;
       current = current->next;
     } else {

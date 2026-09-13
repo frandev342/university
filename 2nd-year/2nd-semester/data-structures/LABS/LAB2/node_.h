@@ -23,4 +23,5 @@ void SortedInsert(struct Node **, struct Node *);
 void InsertSort(struct Node **);
 
 void Append(struct Node **, struct Node **);
+void RemoveDuplicates(struct Node *);
 #endif // !

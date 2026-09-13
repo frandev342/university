@@ -211,3 +211,22 @@ void Append(struct Node **aRef, struct Node **bRef) {
   // Dejamos en nulo a B
   *bRef = NULL;
 }
+
+void RemoveDuplicates(struct Node *head) {
+  if (head == NULL)
+    return;
+  struct Node *current = head->next;
+  struct Node *previousNode = head;
+  int RepeatedValue = head->data;
+  while (current != NULL) {
+    if (current->data != RepeatedValue) {
+      RepeatedValue = current->data;
+      previousNode = current;
+      current = current->next;
+    } else {
+      previousNode->next = current->next;
+      free(current);
+      current = previousNode->next;
+    }
+  }
+}

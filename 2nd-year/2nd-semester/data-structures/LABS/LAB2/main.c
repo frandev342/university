@@ -54,5 +54,8 @@ int main() {
   InsertSort(&LinkedList2);
   printList(LinkedList2);
 
+  RemoveDuplicates(LinkedList2);
+  printList(LinkedList2);
+
   return 0;
 }

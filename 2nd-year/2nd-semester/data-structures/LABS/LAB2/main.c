@@ -48,5 +48,11 @@ int main() {
   InsertSort(&LinkedList3);
   printList(LinkedList3);
 
+  // Añadir una lista dentro de otra
+  Append(&LinkedList2, &LinkedList3);
+  printList(LinkedList2);
+  InsertSort(&LinkedList2);
+  printList(LinkedList2);
+
   return 0;
 }

@@ -198,3 +198,16 @@ void InsertSort(struct Node **headRef) {
   }
   *headRef = result;
 }
+
+// Añadir una lista dentro de otra, dejando la 2da lista en NULL
+void Append(struct Node **aRef, struct Node **bRef) {
+  struct Node *aCurrent = *aRef;
+  // Avanzamos hasta llegar al últimmo elemento de A
+  while (aCurrent->next != NULL) {
+    aCurrent = aCurrent->next;
+  }
+  // Continuamos la lista A apuntando al primer elemento de B
+  aCurrent->next = *bRef;
+  // Dejamos en nulo a B
+  *bRef = NULL;
+}

@@ -21,4 +21,6 @@ struct Node *Range(int, int, int);
 void pushBack(struct Node **, int);
 void SortedInsert(struct Node **, struct Node *);
 void InsertSort(struct Node **);
+
+void Append(struct Node **, struct Node **);
 #endif // !

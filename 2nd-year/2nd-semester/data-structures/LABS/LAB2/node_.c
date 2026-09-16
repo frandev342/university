@@ -73,14 +73,12 @@ void DeleteList(struct Node **headRef) {
 }
 
 int pop(struct Node **headRef) {
-  if (headRef != NULL && *headRef != NULL) {
-    struct Node *current = *headRef;
-    int value = current->data;
-    *headRef = (*headRef)->next;
-    free(current);
-    return value;
-  }
-  return -1;
+  assert(headRef != NULL && *headRef != NULL);
+  struct Node *current = *headRef;
+  int value = current->data;
+  *headRef = (*headRef)->next;
+  free(current);
+  return value;
 }
 
 void Push(struct Node **headRef, int x) {
@@ -111,7 +109,7 @@ void Push(struct Node **headRef, int x) {
 //   newNode->data = x;
 //   newNode->next = currentNode;
 // }
-
+/*
 void InsertNth(struct Node **headRef, int idx, int x) {
   if (idx == 0)
     Push(headRef, x);
@@ -127,6 +125,20 @@ void InsertNth(struct Node **headRef, int idx, int x) {
     assert(current != NULL);
     Push(&(current->next), x);
   }
+}*/
+
+void InsertNth(struct Node **headRef, int idx, int x) {
+  assert(0 <= idx && idx <= length(*headRef));
+  // Dummy Node se comporta como nodo inicial, permitiendo insertar incluso al
+  // inicio, sin agregar caso especial
+  struct Node dummy = {0, *headRef};
+  struct Node *current = &dummy;
+  for (int i = 0; i < idx; i++) {
+    current = current->next;
+  }
+  Push(&(current->next), x);
+  // Puede ser innecesario, pero para casos generales sirve
+  *headRef = dummy.next;
 }
 
 void printList(struct Node *head) {
@@ -171,7 +183,7 @@ void pushBack(struct Node **headRef, int x) {
     current->next = newNode;
   }
 }
-
+/*
 void SortedInsert(struct Node **headRef, struct Node *newNode) {
   if (*headRef == NULL || ((*headRef)->data >= newNode->data)) {
     newNode->next = *headRef;
@@ -185,6 +197,27 @@ void SortedInsert(struct Node **headRef, struct Node *newNode) {
     newNode->next = current->next;
     current->next = newNode;
   }
+}*/
+/* TODO: SortedInsert con dummy
+void SortedInsert(struct Node **headRef, struct Node *newNode) {
+  struct Node dummy = {0, *headRef};
+  struct Node *current = &dummy;
+  while (current->next != NULL && current->next->data < newNode->data) {
+    current = current->next;
+  }
+  newNode->next = current->next;
+  current->next = newNode;
+  // Por si acaso el newNode vaya a estar al principio
+  *headRef = dummy.next;
+}*/
+/*TODO: SortedInsert con referencias locales (punteros dobles)*/
+void SortedInsert(struct Node **headRef, struct Node *newNode) {
+  struct Node **currentRef = headRef;
+  while (*currentRef && (*currentRef)->data < newNode->data) {
+    currentRef = &((*currentRef)->next);
+  }
+  newNode->next = *currentRef;
+  (*currentRef) = newNode;
 }
 
 void InsertSort(struct Node **headRef) {
@@ -227,4 +260,86 @@ void RemoveDuplicates(struct Node *head) {
       current = previousNode->next;
     }
   }
+}
+
+// TODO: Copy List
+// 1. Copy list cubriendo el caso en particular y tail
+/*
+struct Node *CopyList(struct Node *head) {
+  struct Node *newList = NULL;
+  struct Node *current = head;
+  struct Node *tail = NULL;
+  while (current != NULL) {
+    if (newList == NULL) {
+      newList = malloc(sizeof(struct Node));
+      newList->data = current->data;
+      newList->next = NULL;
+      tail = newList;
+    } else {
+      tail->next = malloc(sizeof(struct Node));
+      tail = tail->next;
+      tail->next = NULL;
+      tail->data = current->data;
+    }
+    current = current->next;
+  }
+  return newList;
+}*/
+
+/* TODO: CopyList con Push y tail
+struct Node *CopyList(struct Node *head) {
+  struct Node *current = head, *newList = NULL, *tail = NULL;
+  while (current != NULL) {
+    if (newList == NULL) {
+      Push(&newList, current->data);
+      tail = newList;
+    } else {
+      pushBack(&tail, current->data);
+      tail = tail->next;
+    }
+    current = current->next;
+  }
+  return newList;
+}*/
+
+// CopyList con dummy, tail y push
+// Elimina la necesidad del primer if, ya que ahora
+// tail tiene un nodo al que apuntar y es dummy
+/*
+El dummy es un truco para evitar el if: siempre
+hay un nodo al que apuntar, así que el
+código es uniforme.
+*/
+/* TODO: CopyList con dummy
+struct Node *CopyList(struct Node *head) {
+  struct Node *current = head;
+  struct Node *tail;
+  struct Node dummy;
+  dummy.next = NULL;
+  tail = &dummy;
+  while (current != NULL) {
+    Push(&(tail->next), current->data);
+    tail = tail->next;
+    current = current->next;
+  }
+  return dummy.next;
+}
+*/
+
+/* TODO: CopyList con referencias locales (doble puntero)*/
+struct Node *CopyList(struct Node *head) {
+  struct Node *current = head;
+  struct Node *newList = NULL;
+  struct Node **lastPtrRef = &newList;
+  while (current != NULL) {
+    Push(lastPtrRef, current->data);
+    lastPtrRef = &((*lastPtrRef)->next);
+    current = current->next;
+  }
+  return newList;
+}
+
+// MOver el 1er nodo de source a dest;
+void MoveNode(struct Node **destRef, struct Node **sourceRef) {
+  Push(destRef, pop(sourceRef));
 }

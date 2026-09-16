@@ -24,4 +24,8 @@ void InsertSort(struct Node **);
 
 void Append(struct Node **, struct Node **);
 void RemoveDuplicates(struct Node *);
+// CopyList
+//
+struct Node *CopyList(struct Node *);
+void MoveNode(struct Node **, struct Node **);
 #endif // !

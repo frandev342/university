@@ -56,6 +56,23 @@ int main() {
 
   RemoveDuplicates(LinkedList2);
   printList(LinkedList2);
+  printList(LinkedList);
+  // TODO: Copiar lista dentro de otras
+  // Prueba cubriendo el único caso particular
+  struct Node *LinkedList4 = CopyList(LinkedList2);
+  printList(LinkedList4);
+
+  // Utilizando otra implementación de SortedInsert con dummy
+  printf("---------\n");
+  struct Node *node4 = malloc(sizeof(struct Node));
+  node4->data = -12;
+  node4->next = NULL;
+  SortedInsert(&LinkedList4, node4);
+  printList(LinkedList4);
+  printList(LinkedList2);
+  MoveNode(&LinkedList4, &LinkedList2);
+  printList(LinkedList4);
+  printList(LinkedList2);
 
   return 0;
 }

@@ -1,5 +1,6 @@
 #include "node_.h"
 #include <assert.h>
+#include <endian.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -342,4 +343,43 @@ struct Node *CopyList(struct Node *head) {
 // MOver el 1er nodo de source a dest;
 void MoveNode(struct Node **destRef, struct Node **sourceRef) {
   Push(destRef, pop(sourceRef));
+}
+
+// frontBackSplit: dividir un arreglo source en dos arreglos.
+void FrontBackSplit(struct Node *source, struct Node **frontRef,
+                    struct Node **backRef) {
+  struct Node *current = source;
+  int len = length(source);
+  if (len < 2) {
+    *frontRef = source;
+    *backRef = NULL;
+  } else {
+    for (int i = 0; i < (len - 1) / 2; i++) {
+      current = current->next;
+    }
+    *frontRef = source;
+    *backRef = current->next;
+    current->next = NULL;
+  }
+}
+
+// Reverse: Revertir una lista
+void Reverse(struct Node **headRef) {
+  struct Node *current = *headRef;
+  // prevNode para tener guardar el nodo anterior
+  struct Node *prevNode = current;
+  // Caso especial: actualizar current y que el 1er nodo apunte a NULL
+  current = current->next;
+  prevNode->next = NULL;
+  // Recorrer la lista guardando el current y hacer que apunte al anterior
+  while (current->next != NULL) {
+    struct Node *nextNode = current->next;
+    current->next = prevNode;
+    prevNode = current;
+    // Actualizar current
+    current = nextNode;
+  }
+  // head que apunte al último nodo (current)
+  current->next = prevNode;
+  *headRef = current;
 }

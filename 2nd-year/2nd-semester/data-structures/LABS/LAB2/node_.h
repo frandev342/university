@@ -17,7 +17,7 @@ void DeleteList(struct Node **);
 int pop(struct Node **);
 void InsertNth(struct Node **, int, int);
 void printList(struct Node *);
-struct Node *Range(int, int, int);
+struct Node *Range(int start, int stop, int step);
 void pushBack(struct Node **, int);
 void SortedInsert(struct Node **, struct Node *);
 void InsertSort(struct Node **);
@@ -28,4 +28,6 @@ void RemoveDuplicates(struct Node *);
 //
 struct Node *CopyList(struct Node *);
 void MoveNode(struct Node **, struct Node **);
+void FrontBackSplit(struct Node *, struct Node **, struct Node **);
+void Reverse(struct Node **);
 #endif // !

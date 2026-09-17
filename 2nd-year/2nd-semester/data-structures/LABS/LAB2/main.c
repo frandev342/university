@@ -74,5 +74,14 @@ int main() {
   printList(LinkedList4);
   printList(LinkedList2);
 
+  struct Node *frontHalft;
+  struct Node *backHalf;
+  struct Node *LinkedList5 = Range(1, 10, 2);
+  FrontBackSplit(LinkedList5, &frontHalft, &backHalf);
+  printList(frontHalft);
+  printList(backHalf);
+
+  Reverse(&LinkedList5);
+  printList(LinkedList5);
   return 0;
 }

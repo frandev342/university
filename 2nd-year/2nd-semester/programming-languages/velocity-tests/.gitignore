@@ -1,0 +1,6 @@
+test
+*.o
+*.hi
+mergeSort
+mergeSort2
+mergeSort3

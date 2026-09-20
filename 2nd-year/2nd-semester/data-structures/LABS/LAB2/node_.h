@@ -30,4 +30,6 @@ struct Node *CopyList(struct Node *);
 void MoveNode(struct Node **, struct Node **);
 void FrontBackSplit(struct Node *, struct Node **, struct Node **);
 void Reverse(struct Node **);
+void AlternativeSplit(struct Node *, struct Node **, struct Node **);
+struct Node *SuffleMerge(struct Node *a, struct Node *b);
 #endif // !

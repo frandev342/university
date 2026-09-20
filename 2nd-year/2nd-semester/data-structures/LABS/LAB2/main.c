@@ -29,7 +29,7 @@ int main() {
   // InsertNth(&LinkedList2, 4, 100);
   printList(LinkedList2);
 
-  struct Node *newN = malloc(sizeof(struct Node));
+  struct Node *newN = (struct Node *)malloc(sizeof(struct Node));
   newN->data = 1;
   newN->next = NULL;
   printf("%d\n", length(newN));
@@ -64,7 +64,7 @@ int main() {
 
   // Utilizando otra implementación de SortedInsert con dummy
   printf("---------\n");
-  struct Node *node4 = malloc(sizeof(struct Node));
+  struct Node *node4 = (struct Node *)malloc(sizeof(struct Node));
   node4->data = -12;
   node4->next = NULL;
   SortedInsert(&LinkedList4, node4);
@@ -74,14 +74,25 @@ int main() {
   printList(LinkedList4);
   printList(LinkedList2);
 
-  struct Node *frontHalft;
+  struct Node *frontHalf;
   struct Node *backHalf;
   struct Node *LinkedList5 = Range(1, 10, 2);
-  FrontBackSplit(LinkedList5, &frontHalft, &backHalf);
-  printList(frontHalft);
+  FrontBackSplit(LinkedList5, &frontHalf, &backHalf);
+  printList(frontHalf);
   printList(backHalf);
 
   Reverse(&LinkedList5);
   printList(LinkedList5);
+  printf("---------\n");
+  struct Node *ovenPos;
+  ovenPos = NULL;
+  struct Node *oddPos;
+  oddPos = NULL;
+  struct Node *LinkedList6 = Range(20, 50, 3);
+  AlternativeSplit(LinkedList6, &ovenPos, &oddPos);
+  printList(ovenPos);
+  printList(oddPos);
+  struct Node *LinkedList7 = SuffleMerge(ovenPos, oddPos);
+  printList(LinkedList7);
   return 0;
 }

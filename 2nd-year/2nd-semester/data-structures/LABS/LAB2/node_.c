@@ -83,7 +83,7 @@ int pop(struct Node **headRef) {
 }
 
 void Push(struct Node **headRef, int x) {
-  struct Node *newNode = malloc(sizeof(struct Node));
+  struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
   newNode->data = x;
   newNode->next = *headRef;
   *headRef = newNode;
@@ -170,7 +170,7 @@ struct Node *Range(int start, int stop, int step) {
 
 // Agregar un elemento al final
 void pushBack(struct Node **headRef, int x) {
-  struct Node *newNode = malloc(sizeof(struct Node));
+  struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
   newNode->data = x;
   newNode->next = NULL;
   if (*headRef == NULL) {
@@ -342,7 +342,10 @@ struct Node *CopyList(struct Node *head) {
 
 // MOver el 1er nodo de source a dest;
 void MoveNode(struct Node **destRef, struct Node **sourceRef) {
-  Push(destRef, pop(sourceRef));
+  struct Node *sourceNextNode = (*sourceRef)->next;
+  (*sourceRef)->next = *destRef;
+  *destRef = *sourceRef;
+  *sourceRef = sourceNextNode;
 }
 
 // frontBackSplit: dividir un arreglo source en dos arreglos.
@@ -382,4 +385,39 @@ void Reverse(struct Node **headRef) {
   // head que apunte al último nodo (current)
   current->next = prevNode;
   *headRef = current;
+}
+
+void AlternativeSplit(struct Node *source, struct Node **aRef,
+                      struct Node **bRef) {
+  struct Node *a = NULL;
+  struct Node *b = NULL;
+
+  struct Node *current = source;
+  while (current != NULL) {
+    MoveNode(&a, &current);
+    if (current != NULL)
+      MoveNode(&b, &current);
+  }
+  *aRef = a;
+  *bRef = b;
+}
+
+struct Node *SuffleMerge(struct Node *a, struct Node *b) {
+  struct Node dummy = {0, NULL};
+  struct Node *tail = &dummy;
+  while (1) {
+    if (a == NULL) {
+      tail->next = b;
+      break;
+    } else if (b == NULL) {
+      tail->next = a;
+      break;
+    } else {
+      MoveNode(&(tail->next), &a);
+      tail = tail->next;
+      MoveNode(&(tail->next), &b);
+      tail = tail->next;
+    }
+  }
+  return dummy.next;
 }

@@ -1,29 +1,29 @@
 #include "SinglyLinkedList.hpp"
 #include <iostream>
 
-// Método prinvado copy_nodes
+// Método privado copy_nodes
 SinglyLinkedList::Node *SinglyLinkedList::copy_nodes(const Node *source) {
-  Node dummy{0, nullptr};
-  Node *tail_ = &dummy;
+  Node *newHead = nullptr;
+  Node *newTail = nullptr;
+
   while (source != nullptr) {
-    tail_->next = new Node{source->data, nullptr};
-    tail_ = tail_->next;
+    Node *node = new Node{source->data, newTail, nullptr};
+    if (newTail != nullptr)
+      newTail->next = node;
+    else
+      newHead = node;
+
+    newTail = node;
     source = source->next;
   }
-  return dummy.next;
+
+  tail = newTail;
+  return newHead;
 }
 
 // Constructor copia
-SinglyLinkedList::SinglyLinkedList(const SinglyLinkedList &other)
-    : head(copy_nodes(other.head)), tail(nullptr) {
-  // Actualizar cola
-  if (head != nullptr) {
-    Node *current = head;
-    while (current->next != nullptr) {
-      current = current->next;
-    }
-    tail = current;
-  }
+SinglyLinkedList::SinglyLinkedList(const SinglyLinkedList &other) {
+  head = copy_nodes(other.head);
 }
 
 // Asignación por copia
@@ -31,16 +31,6 @@ SinglyLinkedList &SinglyLinkedList::operator=(const SinglyLinkedList &other) {
   if (this != &other) {
     clear();
     head = copy_nodes(other.head);
-    // Actualizar cola o tail
-    if (head != nullptr) {
-      Node *current = head;
-      while (current->next != nullptr) {
-        current = current->next;
-      }
-      tail = current;
-    } else {
-      tail = nullptr;
-    }
   }
   return *this;
 }
@@ -67,7 +57,9 @@ SinglyLinkedList::~SinglyLinkedList() { clear(); }
 
 // push_front: Pushear un value en la cabeeza de la lista O(1)
 void SinglyLinkedList::push_front(int value) {
-  Node *newNode = new Node{value, head};
+  Node *newNode = new Node{value, nullptr, head};
+  if (head != nullptr)
+    head->prev = newNode;
   if (head == nullptr)
     tail = newNode;
   head = newNode;
@@ -105,51 +97,11 @@ void SinglyLinkedList::clear() {
   tail = nullptr;
 }
 
-// PushBack sin tail O(n)
-/*
-void SinglyLinkedList::push_back(int value) {
-  Node **lastPtrRef = &head;
-  while (*lastPtrRef != nullptr)
-    lastPtrRef = &((*lastPtrRef)->next);
-  *lastPtrRef = new Node{value, nullptr};
-}
-*/
-
-// PushBack con tail O(1)
-/*
-void SinglyLinkedList::push_back(int value) {
-  Node *newNode = new Node{value, nullptr};
-  if (head == nullptr) {
-    head = newNode;
-    tail = newNode;
-    return;
-  }
-  tail->next = newNode;
-  tail = newNode;
-}*/
-
-// Eliminar el primer nodo O(1)
-/*
-bool SinglyLinkedList::pop_front() {
-  if (head == nullptr)
-    return false;
-  Node *victim = head;
-  head = head->next;
-  delete victim;
-  if (head == nullptr)
-    tail = nullptr;
-  return true;
-}*/
-
 // eraseAfter: Borrar el Nodo siguiente O(1)
 bool SinglyLinkedList::eraseAfter(Node *prev) {
   if (prev == nullptr || prev->next == nullptr)
     return false;
-  Node *victim = prev->next;
-  prev->next = victim->next;
-  if (victim == tail)
-    tail = prev;
-  delete victim;
+  eraseNode(prev->next);
   return true;
 }
 
@@ -176,12 +128,35 @@ void SinglyLinkedList::printL() {
   std::cout << std::endl;
 }
 
-// push_back: Agregar un nodo al final con sentinel
+// push_back: Agregar un nodo al final en O(1)
 void SinglyLinkedList::push_back(int value) {
-  Node *NewNode = new Node{value, nullptr};
-  tail->next = NewNode;
-  tail = NewNode;
+  Node *newNode = new Node{value, tail, nullptr};
+  if (tail != nullptr)
+    tail->next = newNode;
+  else
+    head = newNode;
+  tail = newNode;
 }
 
-// pop_front: Eliminar el primer elemento con sentinel
-bool SinglyLinkedList::pop_front() { return eraseAfter(&sentinel); }
+// pop_front: Eliminar el primer elemento en O(1)
+bool SinglyLinkedList::pop_front() {
+  if (head == nullptr)
+    return false;
+  eraseNode(head);
+  return true;
+}
+
+// eraseNode: Borrar nodo O(1)
+void SinglyLinkedList::eraseNode(Node *p) {
+  if (p->prev != nullptr)
+    p->prev->next = p->next;
+  else
+    head = p->next;
+
+  if (p->next != nullptr)
+    p->next->prev = p->prev;
+  else
+    tail = p->prev;
+
+  delete p;
+}

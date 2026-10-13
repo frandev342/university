@@ -1,18 +1,19 @@
-#ifndef _SINGLY_LINKED_LIST_
-#define _SINGLY_LINKED_LIST_
+#ifndef SINGLY_LINKED_LIST_HPP
+#define SINGLY_LINKED_LIST_HPP
 
 class SinglyLinkedList {
 
   struct Node {
     int data;
+    Node *prev;
     Node *next;
   };
   Node *head = nullptr;
-  Node sentinel = Node{0, head};
-  Node *tail = &sentinel;
+  Node *tail = nullptr;
 
   Node *copy_nodes(const Node *source);
   bool eraseAfter(Node *prev);
+  void eraseNode(Node *p);
 
 public:
   // Destructor
@@ -35,15 +36,11 @@ public:
   bool empty() const;             // head
   int size() const;               // next
   bool contains(int value) const; // Dynamic memory
-  //
-  // void push_back(int value); // sin sentinel
-  // bool pop_front(); // sin sentinel
   bool eraseFirst(int value);
   void printL();
 
-  //
-  void push_back(int value); // con sentinel
-  bool pop_front();          // con sentinel
+  void push_back(int value);
+  bool pop_front();
 };
 
-#endif // !
+#endif

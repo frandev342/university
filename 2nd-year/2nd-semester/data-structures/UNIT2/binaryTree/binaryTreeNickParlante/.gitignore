@@ -1,0 +1,11 @@
+*.o
+*.out
+trees
+*.d
+core
+core.*
+.gdb_history
+*~
+*.swp
+*.swo
+build/

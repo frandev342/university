@@ -1,0 +1,11 @@
+*.pdf
+*.hi
+*.o
+*.zip
+
+# Local build outputs without extensions.
+/2nd-year/2nd-semester/data-structures/UNIT2/binaryTree/tree
+/2nd-year/2nd-semester/data-structures/UNIT2/Hashing/hashingColiciones/test_chain
+/2nd-year/2nd-semester/data-structures/UNIT2/Hashing/hashingColiciones/test_linear
+/2nd-year/2nd-semester/programming-languages/ahorcado
+/2nd-year/2nd-semester/programming-languages/test

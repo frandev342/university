@@ -1,0 +1,7 @@
+tests
+tests_san
+*.o
+*.out
+core
+core.*
+.vscode/

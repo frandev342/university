@@ -1,0 +1,9 @@
+build/
+*.o
+*.out
+*.gcda
+*.gcno
+*.gcov
+*.s
+*.log
+.DS_Store

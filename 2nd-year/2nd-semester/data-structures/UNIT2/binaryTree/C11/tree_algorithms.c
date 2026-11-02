@@ -161,3 +161,5 @@ int isBSTv2(const Node *root) {
     return 0;
   return isBSTv2(root->left) && isBSTv2(root->right);
 }
+
+void doubleTree(Node *root);

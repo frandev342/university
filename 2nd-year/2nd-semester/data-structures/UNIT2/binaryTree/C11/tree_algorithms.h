@@ -25,5 +25,6 @@ long long countTrees2(int numKeys);
 int isBST(const Node *root);
 
 int isBSTv2(const Node *root);
+void doubleTree(Node *root);
 
 #endif //

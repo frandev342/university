@@ -20,7 +20,12 @@ int height(const Node *x) {
 }
 
 Node *newNode(Node *parent, int key) {
-  return new (std::nothrow) Node{key, nullptr, nullptr, parent};
+  Node *node = new (std::nothrow) Node;
+  if (node != nullptr) {
+    node->key = key;
+    node->parent = parent;
+  }
+  return node;
 }
 
 int insert(Tree &t, int key) {

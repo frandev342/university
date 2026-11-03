@@ -38,4 +38,13 @@ bool rb_tree_contains(const Tree *tree, int key);
 // Verifica orden BST y propiedades rojinegras. Tiempo O(n), memoria O(h).
 bool rb_tree_valid(const Tree *tree);
 
+// Consulta el contador almacenado. Tiempo y memoria auxiliar O(1).
+size_t rb_tree_size(const Tree *tree);
+
+// Indica si no contiene nodos. Tiempo y memoria auxiliar O(1).
+bool rb_tree_empty(const Tree *tree);
+
+// Calcula la altura en aristas; vacío vale -1. Tiempo O(n), memoria O(h).
+int rb_tree_height(const Tree *tree);
+
 #endif
